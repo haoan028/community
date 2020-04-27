@@ -47,17 +47,46 @@ public class GithubController {
         accessTokenDTO.setClient_secret(Client_secret);
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(accessToken);
-        System.out.println(githubUser);
 
-        User user = new User();
-        user.setAccount_id(String.valueOf(githubUser.getId()));
-        user.setName(githubUser.getName());
-        user.setToken(UUID.randomUUID().toString());
-        user.setGmt_create(System.currentTimeMillis());
-        user.setGmt_modfied(user.getGmt_create());
-        userMapper.saveUser(user);
 
-        request.getSession().setAttribute("user",githubUser);
-        return "redirect:/";
+        if (githubUser!=null){
+
+//            User user = new User();
+//
+//            user.setToken(UUID.randomUUID().toString());
+//            user.setAccount_id(String.valueOf(githubUser.getId()));
+//            user.setName(githubUser.getName());
+//            user.setGmt_create(System.currentTimeMillis());
+//            user.setGmt_modfied(user.getGmt_create());
+//            userMapper.saveUser(user);
+//
+//            request.getSession().setAttribute("user",githubUser);
+//            return "redirect:/";
+
+
+            if(userMapper.findById(String.valueOf(githubUser.getId()))==null){
+            User user = new User();
+            user.setToken(UUID.randomUUID().toString());
+            user.setAccount_id(String.valueOf(githubUser.getId()));
+            user.setName(githubUser.getName());
+            user.setGmt_create(System.currentTimeMillis());
+            user.setGmt_modfied(user.getGmt_create());
+            user.setAvatar_url(githubUser.getAvatar_url());
+
+            userMapper.saveUser(user);
+
+            request.getSession().setAttribute("user",user);
+            return "redirect:/";
+            }else {
+                User user = userMapper.findById(String.valueOf(githubUser.getId()));
+                request.getSession().setAttribute("user",user);
+                return "redirect:/";
+            }
+        }else {
+            //登录失败
+            return "redirect:/";
+        }
+
+
     }
 }

@@ -4,49 +4,74 @@
     <meta charset="UTF-8">
     <title>果农社区</title>
     <script src="js/jquery-3.2.1.slim.min.js"></script>
+
+
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="css/publish.css">
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body>
 
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">果农社区</span>
-            </button>
-            <a class="navbar-brand" href="#">果农社区</a>
+<div th:replace="commons/nav::nav"></div>
+
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
+            <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h2>
+            <hr>
+            <div class="media" th:each="question:${pageInfo.questionUserDTO}">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object head-image" th:src="${question.user.avatar_url}">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${question.question.title}"></h4>
+                    [[${question.question.description}]] <span class="text-tip" style="float: right" >• [[${question.user.name}]] 发表了文章 • [[${question.question.comment_count}]] 个评论 • [[${question.question.view_count}]] 次浏览 • [[${#dates.format(question.question.gmt_create,'yyyy/MM/dd')}]] </span>
+                </div>
+            </div>
+
+            <nav aria-label="Page navigation" style="float: right">
+                <ul class="pagination">
+                    <li th:if="${pageInfo.showFirstPage}">
+                        <a href="#" aria-label="Previous"  th:href="@{/(page=1)}">
+                            <span aria-hidden="true">&lt;&lt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${pageInfo.showPrevious}">
+                        <a href="#" aria-label="Previous" th:href="@{/(page=${pageInfo.page - 1})}">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+                    <li th:each="page:${pageInfo.pages}" th:class="${pageInfo.page==page}?'active':''"><a href="#" th:href="@{/(page=${page})}">[[${page}]]</a></li>
+                    <li th:if="${pageInfo.showNext}">
+                        <a href="#" aria-label="Next" th:href="@{/(page=${pageInfo.page + 1})}">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                    <li th:if="${pageInfo.showEndPage}">
+                        <a href="#" aria-label="Next" th:href="@{/(page=${pageInfo.totalPage})}">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
-            <form class="navbar-form navbar-left">
-                <div class="form-group">
-                    <input type="text" class="form-control" placeholder="搜索话题">
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="https://github.com/login/oauth/authorize?client_id=65a10b2d5a7c48b6b73c&redirect_uri=http://localhost:8080/callback&scope=user&state=1" th:text="${session.user==null}?'登录':${session.user.name}"></a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.user==null}?'':'我的'"><span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">消息中心</a></li>
-                        <li><a href="#">个人资料</a></li>
-                        <li><a href="#">退出登录</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
+            <h3>热门话题</h3>
+
+        </div>
+
+
+    </div>
+</div>
 </body>
 </html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>果农社区</title>
+    <script src="/js/jquery-3.2.1.slim.min.js"></script>
+
+
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/css/publish.css">
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<div th:replace="commons/nav::nav"></div>
+
+
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
+            <h2><span class="glyphicon glyphicon-question-sign" aria-hidden="true" ></span>[[${sectionName}]] </h2>
+            <hr>
+            <div th:if="${section=='questions'}">
+                <div class="media" th:each="question:${pageInfo.questionUserDTO}">
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object head-image" th:src="${question.user.avatar_url}">
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <h4 class="media-heading" th:text="${question.question.title}"></h4>
+                        [[${question.question.description}]] <span class="text-tip" style="float: right" >• [[${question.user.name}]] 发表了文章 • [[${question.question.comment_count}]] 个评论 • [[${question.question.view_count}]] 次浏览 • [[${#dates.format(question.question.gmt_create,'yyyy/MM/dd')}]] </span>
+                    </div>
+                </div>
+
+                <nav aria-label="Page navigation" style="float: right">
+                    <ul class="pagination">
+                        <li th:if="${pageInfo.showFirstPage}">
+                            <a href="#" aria-label="Previous"  th:href="@{/profile/questions(page=1)}">
+                                <span aria-hidden="true">&lt;&lt;</span>
+                            </a>
+                        </li>
+                        <li th:if="${pageInfo.showPrevious}">
+                            <a href="#" aria-label="Previous" th:href="@{/profile/questions(page=${pageInfo.page - 1})}">
+                                <span aria-hidden="true">&lt;</span>
+                            </a>
+                        </li>
+                        <li th:each="page:${pageInfo.pages}" th:class="${pageInfo.page==page}?'active':''"><a href="#" th:href="@{/profile/questions(page=${page})}">[[${page}]]</a></li>
+                        <li th:if="${pageInfo.showNext}">
+                            <a href="#" aria-label="Next" th:href="@{/profile/questions(page=${pageInfo.page + 1})}">
+                                <span aria-hidden="true">&gt;</span>
+                            </a>
+                        </li>
+                        <li th:if="${pageInfo.showEndPage}">
+                            <a href="#" aria-label="Next" th:href="@{/profile/questions(page=${pageInfo.totalPage})}">
+                                <span aria-hidden="true">&gt;&gt;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
+            <div class="list-group" style="margin-top: 20px">
+                <a href="/profile/questions" class="list-group-item active" th:class="${section=='questions'}?'list-group-item active':'list-group-item'">
+                    我的问题
+                </a>
+                <a href="/profile/replies" class="list-group-item" th:class="${section=='replies'}?'list-group-item active':'list-group-item'">最新回复</a>
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+</body>
+</html>

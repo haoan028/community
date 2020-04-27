@@ -1,0 +1,28 @@
+body{
+    background-color: #efefef;
+}
+.main{
+    background-color: white;
+    margin: 40px 200px;
+    border-radius: 5px;
+}
+.main-text{
+    margin: 40px;
+}
+
+.btn-publish{
+    float: right;
+    margin-bottom: 15px;
+}
+
+
+.head-image{
+    width: 38px;
+    height: 38px;
+}
+
+.text-tip{
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+}
