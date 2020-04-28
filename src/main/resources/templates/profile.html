@@ -34,7 +34,7 @@
                         </a>
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading" th:text="${question.question.title}"></h4>
+                        <a th:href="'/question/'+${question.question.id}"><h4 class="media-heading" th:text="${question.question.title}"></h4></a>
                         [[${question.question.description}]] <span class="text-tip" style="float: right" >• [[${question.user.name}]] 发表了文章 • [[${question.question.comment_count}]] 个评论 • [[${question.question.view_count}]] 次浏览 • [[${#dates.format(question.question.gmt_create,'yyyy/MM/dd')}]] </span>
                     </div>
                 </div>

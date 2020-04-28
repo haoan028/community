@@ -21,6 +21,12 @@ public class QuestionService {
     @Autowired
     UserMapper userMapper;
 
+    /**
+     * 首页问题列表集分页
+     * @param page
+     * @param size
+     * @return
+     */
     public PageInfoDTO findAll(Integer page,Integer size){
         //对分页信息进行封装
         PageInfoDTO pageInfoDTO = new PageInfoDTO();
@@ -52,5 +58,35 @@ public class QuestionService {
         pageInfoDTO.setQuestionUserDTO(questionUserDTOs);
 
         return pageInfoDTO;
+    }
+
+    /**
+     * 问题详情页
+     * @param id
+     */
+    public QuestionUserDTO findById(Integer id) {
+
+        Question question = questionMapper.findById(id);
+        User user = userMapper.findById(question.getCreator());
+        QuestionUserDTO questionUserDTO = new QuestionUserDTO();
+        questionUserDTO.setQuestion(question);
+        questionUserDTO.setUser(user);
+        return questionUserDTO;
+    }
+
+
+
+
+    public Integer saveOoUpdate(Question question) {
+        if(question.getId()==null){
+            question.setGmt_create(System.currentTimeMillis());
+            question.setGmt_modified(question.getGmt_create());
+            questionMapper.saveQuestion(question);
+            return questionMapper.lastInsertId();
+        }else {
+            question.setGmt_modified(System.currentTimeMillis());
+            questionMapper.update(question);
+            return question.getId();
+        }
     }
 }

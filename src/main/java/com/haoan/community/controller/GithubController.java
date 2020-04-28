@@ -89,4 +89,12 @@ public class GithubController {
 
 
     }
+
+    @GetMapping("/login")
+    public String login(@RequestParam("name") String name,
+                        HttpServletRequest request){
+        User test = userMapper.test(name);
+        request.getSession().setAttribute("user",test);
+        return "redirect:/";
+    }
 }

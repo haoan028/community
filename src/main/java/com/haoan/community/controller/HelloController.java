@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -27,5 +28,10 @@ public class HelloController {
         PageInfoDTO pageInfoDTO = questionService.findAll(page,size);
         model.addAttribute("pageInfo",pageInfoDTO);
         return "index";
+    }
+    @GetMapping("/loginout")
+    public String loginout(HttpServletRequest request){
+        request.getSession().removeAttribute("user");
+        return "redirect:/";
     }
 }

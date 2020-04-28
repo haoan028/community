@@ -14,4 +14,8 @@ public interface UserMapper {
 
     @Select("select * from user where account_id=#{account_id}")
     public User findById(String account_id);
+
+
+    @Select("select * from user where name=#{name}")
+    public User test(String name);
 }

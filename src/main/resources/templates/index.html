@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>果农社区</title>
-    <script src="js/jquery-3.2.1.slim.min.js"></script>
+    <script src="/js/jquery-3.2.1.slim.min.js"></script>
 
 
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -12,7 +12,7 @@
     <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="css/publish.css">
+    <link rel="stylesheet" href="/css/publish.css">
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
@@ -32,8 +32,9 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.question.title}"></h4>
-                    [[${question.question.description}]] <span class="text-tip" style="float: right" >• [[${question.user.name}]] 发表了文章 • [[${question.question.comment_count}]] 个评论 • [[${question.question.view_count}]] 次浏览 • [[${#dates.format(question.question.gmt_create,'yyyy/MM/dd')}]] </span>
+                    <a th:href="@{'/question/'+${question.question.id}}"><h4 class="media-heading" th:text="${question.question.title}"></h4></a>
+                    [[${question.question.description}]]
+                    <span class="text-tip" style="float: right" >• [[${question.user.name}]] 发表了文章 • [[${question.question.comment_count}]] 个评论 • [[${question.question.view_count}]] 次浏览 • [[${#dates.format(question.question.gmt_create,'yyyy/MM/dd')}]] </span>
                 </div>
             </div>
 
