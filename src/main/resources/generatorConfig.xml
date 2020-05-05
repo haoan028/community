@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    
+    
+    
+
+<!--    导入驱动（在pom.xml文件中已导入，所以注释）-->
+<!--    <classPathEntry location="/Program Files/IBM/SQLLIB/java/db2java.zip" />-->
+
+<!--    注册一张表-->
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
+<!--        注册数据库信息-->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://123.57.107.154:3306/forum"
+                        userId="root"
+                        password="123456">
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
+
+        <javaTypeResolver >
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+<!--        生成实体类模型
+            targetPackage：设置生成路径 会自动创建
+            targetProject：项目路径  不会自动创建
+            trimStrings:数据库查询时是否进行trim操作，即去除空格
+            enableSubPackages：设置是否自动创建
+-->
+        <javaModelGenerator targetPackage="com.haoan.community.bean" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+<!--        生成配置文件-->
+        <sqlMapGenerator targetPackage="mapper"  targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+<!--
+         生成mapper
+        type：使用那种方式 默认使用xml   可以选择纯注解  或者  混合-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.haoan.community.mapper"  targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+<!--        生成表
+            tableName：必填 对应数据库表名
+            domainObjectName：自动生成  可以命名成对应实体类名称
+            useActualColumnNames：驼峰标识 默认false为生效
+            generatedKey：插入自动生成key  不同数据库规则不同
+            columnOverride：选中列后 重写列名等操作
+            schema：sql语句文件
+-->
+
+        <table  tableName="user" domainObjectName="User" >
+<!--        <table schema="DB2ADMIN" tableName="user" domainObjectName="User" >-->
+<!--            <property name="useActualColumnNames" value="true"/>-->
+<!--            <generatedKey column="ID" sqlStatement="DB2" identity="true" />-->
+<!--            <columnOverride column="DATE_FIELD" property="startDate" />-->
+<!--            <ignoreColumn column="FRED" />-->
+<!--            <columnOverride column="LONG_VARCHAR_FIELD" jdbcType="VARCHAR" />-->
+        </table>
+
+        <table tableName="question" domainObjectName="Question"></table>
+        <table tableName="comment" domainObjectName="Comment"></table>
+        <table tableName="notification" domainObjectName="Notification"></table>
+    </context>
+</generatorConfiguration>

@@ -1,6 +1,7 @@
 package com.haoan.community.controller;
 
 import com.haoan.community.bean.User;
+import com.haoan.community.bean.UserExample;
 import com.haoan.community.dto.AccessTokenDTO;
 import com.haoan.community.dto.GithubUser;
 import com.haoan.community.mapper.UserMapper;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -63,23 +65,26 @@ public class GithubController {
 //            request.getSession().setAttribute("user",githubUser);
 //            return "redirect:/";
 
+            UserExample userExample= new UserExample();
+            userExample.createCriteria()
+                    .andAccountIdEqualTo(String.valueOf(githubUser.getId()));
+            List<User> users = userMapper.selectByExample(userExample);
 
-            if(userMapper.findById(String.valueOf(githubUser.getId()))==null){
+            if(users.size()==0){
             User user = new User();
             user.setToken(UUID.randomUUID().toString());
-            user.setAccount_id(String.valueOf(githubUser.getId()));
+            user.setAccountId(String.valueOf(githubUser.getId()));
             user.setName(githubUser.getName());
-            user.setGmt_create(System.currentTimeMillis());
-            user.setGmt_modfied(user.getGmt_create());
-            user.setAvatar_url(githubUser.getAvatar_url());
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModfied(user.getGmtCreate());
+            user.setAvatarUrl(githubUser.getAvatar_url());
 
-            userMapper.saveUser(user);
+            userMapper.insert(user);
 
             request.getSession().setAttribute("user",user);
             return "redirect:/";
             }else {
-                User user = userMapper.findById(String.valueOf(githubUser.getId()));
-                request.getSession().setAttribute("user",user);
+                request.getSession().setAttribute("user",users.get(0));
                 return "redirect:/";
             }
         }else {
@@ -93,8 +98,11 @@ public class GithubController {
     @GetMapping("/login")
     public String login(@RequestParam("name") String name,
                         HttpServletRequest request){
-        User test = userMapper.test(name);
-        request.getSession().setAttribute("user",test);
+        UserExample userExample= new UserExample();
+        userExample.createCriteria()
+                .andNameEqualTo(name);
+        List<User> users = userMapper.selectByExample(userExample);
+        request.getSession().setAttribute("user",users.get(0));
         return "redirect:/";
     }
 }

@@ -29,5 +29,41 @@ body{
 
 
 .community-menu{
+    font-size: 13px;
+    margin-left: 5px;
+    color: #5bc0de;
+}
+
+.menu{
     color: #999;
+}
+.menu .icon{
+    margin:5px 6px;
+    font-size: 15px;
+    cursor: pointer;
+}
+.menu .icon:hover{
+    color: #499ef3;
+}
+.menu .icon-color{
+    color: #499ef3;
+}
+.sub-comments{
+    border-radius: 5px;
+    margin-top: 10px;
+    border:1px solid #eee;
+    padding-top: 15px;
+}
+
+.hr-style{
+    padding: 0;
+    margin: 10px 0
+}
+
+.question-relate{
+    line-height: 20px;
+    font-size: 12px;
+    margin-left: 0;
+    list-style: none;
+    padding-left: 0;
 }

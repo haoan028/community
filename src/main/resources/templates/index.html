@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>果农社区</title>
-    <script src="/js/jquery-3.2.1.slim.min.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
 
 
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -25,16 +25,16 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
             <h2><span class="glyphicon glyphicon-list" aria-hidden="true"></span> 发现</h2>
             <hr>
-            <div class="media" th:each="question:${pageInfo.questionUserDTO}">
+            <div class="media" th:each="question:${pageInfo.data}">
                 <div class="media-left">
                     <a href="#">
-                        <img class="media-object head-image" th:src="${question.user.avatar_url}">
+                        <img class="media-object head-image" th:src="${question.user.avatarUrl}">
                     </a>
                 </div>
                 <div class="media-body">
                     <a th:href="@{'/question/'+${question.question.id}}"><h4 class="media-heading" th:text="${question.question.title}"></h4></a>
                     [[${question.question.description}]]
-                    <span class="text-tip" style="float: right" >• [[${question.user.name}]] 发表了文章 • [[${question.question.comment_count}]] 个评论 • [[${question.question.view_count}]] 次浏览 • [[${#dates.format(question.question.gmt_create,'yyyy/MM/dd')}]] </span>
+                    <span class="text-tip" style="float: right" >• [[${question.user.name}]] 发表了文章 • [[${question.question.commentCount}]] 个评论 • [[${question.question.viewCount}]] 次浏览 • [[${#dates.format(question.question.gmtCreate,'yyyy/MM/dd')}]] </span>
                 </div>
             </div>
 

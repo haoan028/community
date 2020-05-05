@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>果农社区</title>
-    <script src="/js/jquery-3.2.1.slim.min.js"></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
 
 
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
@@ -26,16 +26,17 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" >
             <h2><span class="glyphicon glyphicon-question-sign" aria-hidden="true" ></span>[[${sectionName}]] </h2>
             <hr>
+<!--            我的问题-->
             <div th:if="${section=='questions'}">
-                <div class="media" th:each="question:${pageInfo.questionUserDTO}">
+                <div class="media" th:each="question:${pageInfo.data}">
                     <div class="media-left">
                         <a href="#">
-                            <img class="media-object head-image" th:src="${question.user.avatar_url}">
+                            <img class="media-object head-image" th:src="${question.user.avatarUrl}">
                         </a>
                     </div>
                     <div class="media-body">
                         <a th:href="'/question/'+${question.question.id}"><h4 class="media-heading" th:text="${question.question.title}"></h4></a>
-                        [[${question.question.description}]] <span class="text-tip" style="float: right" >• [[${question.user.name}]] 发表了文章 • [[${question.question.comment_count}]] 个评论 • [[${question.question.view_count}]] 次浏览 • [[${#dates.format(question.question.gmt_create,'yyyy/MM/dd')}]] </span>
+                        [[${question.question.description}]] <span class="text-tip" style="float: right" >• [[${question.user.name}]] 发表了文章 • [[${question.question.commentCount}]] 个评论 • [[${question.question.viewCount}]] 次浏览 • [[${#dates.format(question.question.gmtCreate,'yyyy/MM/dd')}]] </span>
                     </div>
                 </div>
 
@@ -65,6 +66,42 @@
                     </ul>
                 </nav>
             </div>
+<!--            我的回复-->
+            <div th:if="${section=='replies'}">
+                <div class="media" th:each="reply:${pageInfo.data}">
+                    <p class="media-heading">
+                        <span th:text="${reply.notifierName+' '+reply.typeName+' '}"></span>
+                        <a th:href="'/notification/'+${reply.id}" th:text="${reply.outerTitle}"> </a>
+                        <span class="label label-default" th:if="${reply.status==0}">未读</span>
+                    </p>
+                </div>
+
+                <nav aria-label="Page navigation" style="float: right">
+                    <ul class="pagination">
+                        <li th:if="${pageInfo.showFirstPage}">
+                            <a href="#" aria-label="Previous"  th:href="@{/profile/replies(page=1)}">
+                                <span aria-hidden="true">&lt;&lt;</span>
+                            </a>
+                        </li>
+                        <li th:if="${pageInfo.showPrevious}">
+                            <a href="#" aria-label="Previous" th:href="@{/profile/replies(page=${pageInfo.page - 1})}">
+                                <span aria-hidden="true">&lt;</span>
+                            </a>
+                        </li>
+                        <li th:each="page:${pageInfo.pages}" th:class="${pageInfo.page==page}?'active':''"><a href="#" th:href="@{/profile/replies(page=${page})}">[[${page}]]</a></li>
+                        <li th:if="${pageInfo.showNext}">
+                            <a href="#" aria-label="Next" th:href="@{/profile/replies(page=${pageInfo.page + 1})}">
+                                <span aria-hidden="true">&gt;</span>
+                            </a>
+                        </li>
+                        <li th:if="${pageInfo.showEndPage}">
+                            <a href="#" aria-label="Next" th:href="@{/profile/replies(page=${pageInfo.totalPage})}">
+                                <span aria-hidden="true">&gt;&gt;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
 
 
@@ -73,7 +110,7 @@
                 <a href="/profile/questions" class="list-group-item active" th:class="${section=='questions'}?'list-group-item active':'list-group-item'">
                     我的问题
                 </a>
-                <a href="/profile/replies" class="list-group-item" th:class="${section=='replies'}?'list-group-item active':'list-group-item'">最新回复</a>
+                <a href="/profile/replies" class="list-group-item" th:class="${section=='replies'}?'list-group-item active':'list-group-item'">最新回复<span class="badge" th:text="${unreadCount}"></span></a>
 
             </div>
 

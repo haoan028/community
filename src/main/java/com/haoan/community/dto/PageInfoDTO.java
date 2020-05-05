@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class PageInfoDTO {
+public class PageInfoDTO<T> {
 
-    private List<QuestionUserDTO> questionUserDTO;
+    private List<T> data;
     private boolean showPrevious;
     private boolean showNext;
     private boolean showEndPage;
