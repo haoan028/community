@@ -38,8 +38,8 @@
             <ul class="nav navbar-nav navbar-right">
                 <li th:if="${session.user!=null}"><a class="glyphicon glyphicon-pencil" aria-hidden="true" th:href="@{/publish}" ></a></li>
                 <li th:if="${session.user!=null}"><a href="/profile/replies">通知 <span class="badge" th:text="${session.unreadCount}"></span></a></li>
-<!--                <li th:if="${session.user==null}"><a href="https://github.com/login/oauth/authorize?client_id=65a10b2d5a7c48b6b73c&redirect_uri=http://localhost:8080/callback&scope=user&state=1" th:text="${session.user==null}?'登录':${session.user.name}"></a></li>-->
-                <li th:if="${session.user==null}"><a href="/login?name=haoan028" >登录</a></li>
+                <li th:if="${session.user==null}"><a href="https://github.com/login/oauth/authorize?client_id=65a10b2d5a7c48b6b73c&redirect_uri=http://localhost:8080/callback&scope=user&state=1" th:text="${session.user==null}?'登录':${session.user.name}"></a></li>
+<!--                <li th:if="${session.user==null}"><a href="/login?name=haoan028" >登录</a></li>-->
                 <li th:if="${session.user!=null}" ><a href="#" th:text="${session.user.name}"></a></li>
                 <li class="dropdown" th:if="${session.user!=null}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" >我的<span class="caret"></span></a>
