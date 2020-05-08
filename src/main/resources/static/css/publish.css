@@ -67,3 +67,10 @@ body{
     list-style: none;
     padding-left: 0;
 }
+
+.footer{
+
+    padding: 60px 0 10px 0;
+    text-align: center;
+    color: #666;
+}

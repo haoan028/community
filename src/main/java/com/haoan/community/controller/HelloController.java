@@ -21,14 +21,18 @@ public class HelloController {
     QuestionService questionService;
     @GetMapping("/")
     public String sayHello(@RequestParam(value = "page",defaultValue = "1") Integer page,
-                            @RequestParam(value = "size",defaultValue = "2") Integer size,
+                            @RequestParam(value = "size",defaultValue = "9") Integer size,
+                            @RequestParam(value = "search",required = false) String search,
                             Model model){
 
 //        List<QuestionUserDTO> questionUserDTOS = questionService.findAll();
-        PageInfoDTO pageInfoDTO = questionService.findAll(page,size);
+        PageInfoDTO pageInfoDTO = questionService.findAll(search,page,size);
         model.addAttribute("pageInfo",pageInfoDTO);
+        model.addAttribute("search",search);
         return "index";
     }
+
+
     @GetMapping("/loginout")
     public String loginout(HttpServletRequest request){
         request.getSession().removeAttribute("user");

@@ -112,6 +112,9 @@ public class CommentService {
 
 
     public void createNotify(Comment comment, Long receiver, NotificationTypeEnum notificationType,String tile,String name,Long questionId){
+        if(comment.getCommentator()==receiver){
+            return;
+        }
         Notification notification = new Notification();
         notification.setGmtCreate(System.currentTimeMillis());
         notification.setOuterId(questionId);

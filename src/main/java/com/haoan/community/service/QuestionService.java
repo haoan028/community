@@ -5,6 +5,7 @@ import com.haoan.community.bean.QuestionExample;
 import com.haoan.community.bean.User;
 import com.haoan.community.bean.UserExample;
 import com.haoan.community.dto.PageInfoDTO;
+import com.haoan.community.dto.QuestionQueryDTO;
 import com.haoan.community.dto.QuestionUserDTO;
 import com.haoan.community.exception.CustomizeErrorCode;
 import com.haoan.community.exception.CustomizeException;
@@ -37,10 +38,12 @@ public class QuestionService {
      * @param size
      * @return
      */
-    public PageInfoDTO findAll(Integer page,Integer size){
+    public PageInfoDTO findAll(String search,Integer page,Integer size){
         //对分页信息进行封装
         PageInfoDTO<QuestionUserDTO> pageInfoDTO = new PageInfoDTO<>();
-        Integer count =(int) questionMapper.countByExample(new QuestionExample());
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer count =(int) questionExMapper.countBySearch(questionQueryDTO);
         pageInfoDTO.setPageInfo(count,page,size);
 
         //保证page不越界
@@ -53,9 +56,9 @@ public class QuestionService {
 
         //数据库查询当前页问题
         Integer offset = size * (page-1);
-        QuestionExample questionExample=new QuestionExample();
-        questionExample.setOrderByClause("gmt_create desc");
-        List<Question> questions = questionMapper.selectByExampleWithRowbounds(questionExample,new RowBounds(offset,size));
+        questionQueryDTO.setOffset(offset);
+        questionQueryDTO.setSize(size);
+        List<Question> questions = questionExMapper.selectBySearch(questionQueryDTO);
 
         //对问题内容封装到questionUserDTOs
         List<QuestionUserDTO> questionUserDTOs = new ArrayList<>();

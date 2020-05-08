@@ -31,6 +31,24 @@
     set
     COMMENT_COUNT = COMMENT_COUNT + #{commentCount,jdbcType=INTEGER}
     where id = #{id}
-
   </update>
+
+  <select id="countBySearch" parameterType="com.haoan.community.dto.QuestionQueryDTO" resultType="java.lang.Integer">
+    select count(*) from question
+      <where>
+        <if test="search != null and search !=''">
+          and title regexp #{search}
+        </if>
+      </where>
+  </select>
+
+  <select id="selectBySearch" parameterType="com.haoan.community.dto.QuestionQueryDTO" resultMap="BaseResultMap">
+    select * from question
+    <where>
+      <if test="search != null and search !='' ">
+        and title regexp #{search}
+      </if>
+    </where>
+    order by gmt_create desc limit #{offset},#{size}
+  </select>
 </mapper>

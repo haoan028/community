@@ -47,6 +47,7 @@ public class NotificationService {
         //查询未读信息放入DTO
         NotificationExample unreadNotificationExample = new NotificationExample();
         unreadNotificationExample.createCriteria()
+                .andReceiverEqualTo(id)
                 .andStatusEqualTo(0);
         unreadNotificationExample.setOrderByClause("gmt_create desc");
         List<Notification> unreadNotifications = notificationMapper.selectByExampleWithRowbounds(unreadNotificationExample,new RowBounds(offset,size));
@@ -60,6 +61,7 @@ public class NotificationService {
         //查询已读信息放入DTO
         NotificationExample readNotificationExample = new NotificationExample();
         readNotificationExample.createCriteria()
+                .andReceiverEqualTo(id)
                 .andStatusEqualTo(1);
         readNotificationExample.setOrderByClause("gmt_create desc");
         Long c = unreadCount(id);

@@ -33,7 +33,8 @@
                 </div>
                 <div class="media-body">
                     <a th:href="@{'/question/'+${question.question.id}}"><h4 class="media-heading" th:text="${question.question.title}"></h4></a>
-                    [[${question.question.description}]]
+<!--                    [[${question.question.description}]]-->
+                    [[${#strings.abbreviate(question.question.description,40)}]]
                     <span class="text-tip" style="float: right" >• [[${question.user.name}]] 发表了文章 • [[${question.question.commentCount}]] 个评论 • [[${question.question.viewCount}]] 次浏览 • [[${#dates.format(question.question.gmtCreate,'yyyy/MM/dd')}]] </span>
                 </div>
             </div>
@@ -41,23 +42,23 @@
             <nav aria-label="Page navigation" style="float: right">
                 <ul class="pagination">
                     <li th:if="${pageInfo.showFirstPage}">
-                        <a href="#" aria-label="Previous"  th:href="@{/(page=1)}">
+                        <a href="#" aria-label="Previous"  th:href="@{/(page=1 ,search=${search})}">
                             <span aria-hidden="true">&lt;&lt;</span>
                         </a>
                     </li>
                     <li th:if="${pageInfo.showPrevious}">
-                        <a href="#" aria-label="Previous" th:href="@{/(page=${pageInfo.page - 1})}">
+                        <a href="#" aria-label="Previous" th:href="@{/(page=${pageInfo.page - 1},search=${search})}">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
-                    <li th:each="page:${pageInfo.pages}" th:class="${pageInfo.page==page}?'active':''"><a href="#" th:href="@{/(page=${page})}">[[${page}]]</a></li>
+                    <li th:each="page:${pageInfo.pages}" th:class="${pageInfo.page==page}?'active':''"><a href="#" th:href="@{/(page=${page},search=${search})}">[[${page}]]</a></li>
                     <li th:if="${pageInfo.showNext}">
-                        <a href="#" aria-label="Next" th:href="@{/(page=${pageInfo.page + 1})}">
+                        <a href="#" aria-label="Next" th:href="@{/(page=${pageInfo.page + 1},search=${search})}">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>
                     <li th:if="${pageInfo.showEndPage}">
-                        <a href="#" aria-label="Next" th:href="@{/(page=${pageInfo.totalPage})}">
+                        <a href="#" aria-label="Next" th:href="@{/(page=${pageInfo.totalPage},search=${search})}">
                             <span aria-hidden="true">&gt;&gt;</span>
                         </a>
                     </li>
@@ -68,11 +69,22 @@
 
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" >
             <h3>热门话题</h3>
-
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h4>联系站长</h4>
+                <div>
+                    <img src="/images/timg.png" class="img-thumbnail">
+                </div>
+            </div>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 30px">
+                <h4>联系站长</h4>
+                <div>
+                    <img src="/images/timg.png" class="img-thumbnail">
+                </div>
+            </div>
         </div>
-
-
     </div>
 </div>
+<div th:replace="commons/nav::footer"></div>
 </body>
 </html>
