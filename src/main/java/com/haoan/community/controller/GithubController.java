@@ -71,18 +71,18 @@ public class GithubController {
             List<User> users = userMapper.selectByExample(userExample);
 
             if(users.size()==0){
-            User user = new User();
-            user.setToken(UUID.randomUUID().toString());
-            user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setName(githubUser.getName());
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModfied(user.getGmtCreate());
-            user.setAvatarUrl(githubUser.getAvatar_url());
+                User user = new User();
+                user.setToken(UUID.randomUUID().toString());
+                user.setAccountId(String.valueOf(githubUser.getId()));
+                user.setName(githubUser.getName());
+                user.setGmtCreate(System.currentTimeMillis());
+                user.setGmtModfied(user.getGmtCreate());
+                user.setAvatarUrl(githubUser.getAvatar_url());
 
-            userMapper.insert(user);
+                userMapper.insert(user);
 
-            request.getSession().setAttribute("user",user);
-            return "redirect:/";
+                request.getSession().setAttribute("user",user);
+                return "redirect:/";
             }else {
                 request.getSession().setAttribute("user",users.get(0));
                 return "redirect:/";
@@ -102,6 +102,7 @@ public class GithubController {
         userExample.createCriteria()
                 .andNameEqualTo(name);
         List<User> users = userMapper.selectByExample(userExample);
+
         request.getSession().setAttribute("user",users.get(0));
         return "redirect:/";
     }
