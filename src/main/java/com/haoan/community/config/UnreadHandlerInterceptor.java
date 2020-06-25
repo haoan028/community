@@ -23,7 +23,6 @@ public class UnreadHandlerInterceptor implements HandlerInterceptor {
             return true;
         }else {
             //已经登录放行
-
             Long unreadCount = notificationService.unreadCount(user.getId());
             request.getSession().setAttribute("unreadCount",unreadCount);
             return true;
